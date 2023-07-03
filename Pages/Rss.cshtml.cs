@@ -10,11 +10,7 @@ namespace WebApplication1.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            // String URLString = "http://scripting.com/rss.xml";
             RssList = new List<RssModelClass>();
-            // XmlTextReader reader = new XmlTextReader(URLString);
-            // XmlDocument doc = new XmlDocument();
-            //doc.Load(reader);
             var doc = new XmlDocument();
             using (var reader = new XmlTextReader("http://scripting.com/rss.xml"))
             {
@@ -23,16 +19,12 @@ namespace WebApplication1.Pages
             var ModelList = new RssModelClass();
             foreach (XmlNode node in doc.SelectNodes("/rss/channel/item"))
             {
-
-                //Fetch the Node values and assign it to Model.
                 var ModelObject = new RssModelClass();
-
                 ModelObject.Guid = node["guid"].InnerText;
+                ModelObject.Description = node["description"].InnerText;
                 ModelObject.PubDate = node["pubDate"].InnerText;
                 ModelObject.Link = node["link"].InnerText;
                 RssList.Add(ModelObject);
-
-
             }
             return Page();
         }
